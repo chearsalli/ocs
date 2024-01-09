@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
-class Google_Controller extends Controller
+class GoogleController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -33,29 +33,33 @@ class Google_Controller extends Controller
         try {
     
             $user = Socialite::driver('google')->stateless()->user();
-     
+
+          
+
             $finduser = User::where('email', $user->email)->first();
-     
+            
+          
+
             if($finduser){
-                if((config('app.app_maintenance') && $finduser->tester) || !config('app.app_maintenance')) {
                     Auth::login($finduser);
                     $token = $finduser->createToken('sample-token-name')->plainTextToken;
-                    return redirect( config('app.sanctum_stateful_domains').'/auth/callback?token='.$token);
-                } else {
-                    return redirect( config('app.sanctum_stateful_domains').'/auth/callback?error=on_maintenance');
-                }
+                    return redirect( env('SANCTUM_STATEFUL_DOMAINS').'/auth/callback?token='.$token);
      
             }else{
-                return redirect( config('app.sanctum_stateful_domains').'/auth/callback?error=not_found');
+                //return 'test';
+                return redirect( env('SANCTUM_STATEFUL_DOMAINS').'/auth/callback?error=not_found');
             }
     
         } catch (Exception $e) {
-            return redirect( config('app.sanctum_stateful_domains').'/auth/callback?error=server_error');
+            return redirect( env('SANCTUM_STATEFUL_DOMAINS').'/auth/callback?error=server_error');
+
+           
         }
     }
     public function user(){
         // return Auth::user()->email;
-        $user = User::where('email',Auth::user()->email)->with('roles')->with('permissions')->first();
+        // $user = User::where('email',Auth::user()->email)->with('roles')->with('permissions')->first();
+        $user = User::where('email',Auth::user()->email)->first();
         return response()->json(
             [
              'user' => $user,

@@ -6,6 +6,7 @@ use App\Http\Controllers\UserRequestController;
 use App\Http\Controllers\OcsServiceController;
 use App\Http\Controllers\FundCodeController;
 use App\Http\Controllers\ServiceProcessorController;
+use App\Http\Controllers\Auth\GoogleController;
 
 // Routes for User Requests
 Route::get('/get-user-requests', [UserRequestController::class, 'index']);
@@ -35,7 +36,18 @@ Route::post('/create-service-pro', [ServiceProcessorController::class, 'store'])
 Route::put('/update-service-pro/{id}', [ServiceProcessorController::class, 'update']);
 Route::delete('/delete-service-pr/{id}', [ServiceProcessorController::class, 'destroy']); 
 
-//Route::get('/service_processors', 'ServiceProcessorController@index')->name('service_processors.index');
+
+Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle']);
+//Route::get('/auth/google/callback', [Auth\GoogleController::class, 'handleGoogleCallback']);
+Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+Route::post('/auth/login', [GoogleController::class, 'login']);
+Route::middleware('auth:sanctum')->get('/auth/user', [GoogleController::class, 'user']);
+Route::middleware('auth:sanctum')->post('/auth/logout', [GoogleController::class, 'logout']);
+
+
+// Route::get('/test', function () {
+//     return 'This is a test route.';
+// });
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceProcessor extends Model
 {
     use HasFactory;
-    protected $fillable = ['user_id', 'service_id'];
+    protected $fillable = ['user_request_id', 'ocs_service_id'];
 
     public function user()
     {
@@ -17,6 +17,6 @@ class ServiceProcessor extends Model
 
     public function service()
     {
-        return $this->belongsTo(OcsService::class, 'service_id');
+        return $this->belongsTo(OcsService::class, 'ocs_service_id');
     }
 }

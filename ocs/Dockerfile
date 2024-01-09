@@ -15,8 +15,8 @@ RUN pecl install redis \
     && docker-php-ext-enable redis
 
 # Set working directory
-WORKDIR /fsrAPI
-COPY . /fsrAPI
+# WORKDIR /fsrAPI
+# COPY . /fsrAPI
 
 # Install dependencies
 RUN composer install
