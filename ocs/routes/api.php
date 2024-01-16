@@ -37,19 +37,33 @@ Route::put('/update-service-pro/{id}', [ServiceProcessorController::class, 'upda
 Route::delete('/delete-service-pr/{id}', [ServiceProcessorController::class, 'destroy']); 
 
 
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// //  Route::group(['prefix' => 'auth'], function () {
+// Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle']);
+// Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+// Route::post('/auth/login', [GoogleController::class, 'login']);
+// Route::middleware('auth:sanctum')->get('/auth/user', [GoogleController::class, 'user']);
+// Route::middleware('auth:sanctum')->post('/auth/logout', [GoogleController::class, 'logout']);
+// // });
+
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::get('/auth/google', [GoogleController::class, 'redirectToGoogle']);
-//Route::get('/auth/google/callback', [Auth\GoogleController::class, 'handleGoogleCallback']);
 Route::get('/auth/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 Route::post('/auth/login', [GoogleController::class, 'login']);
 Route::middleware('auth:sanctum')->get('/auth/user', [GoogleController::class, 'user']);
 Route::middleware('auth:sanctum')->post('/auth/logout', [GoogleController::class, 'logout']);
 
 
-// Route::get('/test', function () {
-//     return 'This is a test route.';
-// });
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
+
+
